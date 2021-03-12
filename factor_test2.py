@@ -29,16 +29,17 @@ def freq_title(sheet, col):
     :return: updated current column
     """
     init_color = 13434879  # 0xccffff
-    for tmp in ['月', '季', '半年']:
-        sheet.cell(row=3, column=col, value=tmp).alignment = Alignment(horizontal="center", vertical="center")
+    for _ in ['月', '季', '半年']:
+        sheet.cell(row=3, column=col, value=_).alignment = Alignment(horizontal="center", vertical="center")
         sheet.cell(row=3, column=col).fill = PatternFill("solid", fgColor=hex(init_color).split('x')[-1])
         sheet.cell(row=4, column=col, value='績效').alignment = Alignment(horizontal="center", vertical="center")
-        sheet.cell(row=4, column=col).border = Border(left=thin)
         sheet.cell(row=4, column=col + 1, value='MDD').alignment = Alignment(horizontal="center", vertical="center")
-        sheet.cell(row=4, column=col + 1).border = Border(right=thin)
-        sheet.merge_cells(start_row=3, start_column=col, end_row=3, end_column=col + 1)
+        sheet.cell(row=4, column=col + 2, value='風報比').alignment = Alignment(horizontal="center", vertical="center")
+        sheet.cell(row=4, column=col).border = Border(left=thin)
+        sheet.cell(row=4, column=col + 2).border = Border(right=thin)
+        sheet.merge_cells(start_row=3, start_column=col, end_row=3, end_column=col + 2)
         sheet.cell(row=3, column=col).border = Border(left=thin, right=thin)
-        col += 2
+        col += 3
         init_color -= 3355392
     return col
 
@@ -83,7 +84,8 @@ def merge_category(cat, sheet):
     r = 5
     for ca in cat:
         # 避免讀到暫存檔
-        ca_len = len(set(glob(f'StrategyReport-1/{ca}/*/*.xls')) ^ set(glob(f'StrategyReport-1/{ca}/*/~*.xls')))
+        # ca_len = len(set(glob(f'StrategyReport-1/{ca}/*/*.xls')) ^ set(glob(f'StrategyReport-1/{ca}/*/~*.xls')))
+        ca_len = len(glob(f'period_report/{ca}/*.xlsx'))
         # 合併儲存格
         sheet.merge_cells(start_row=r, start_column=1, end_row=r + ca_len - 1, end_column=1)
         sheet.cell(row=r, column=1).alignment = Alignment(horizontal="center", vertical="center")
@@ -156,7 +158,7 @@ if __name__ == "__main__":
         strategy_title(wb_all[cr])
         # 績效Factor
         wb_all[cr].cell(row=1, column=3, value=cr)
-        space = 3 * 2 * len(criteria_dict[cr])
+        space = 3 * 3 * len(criteria_dict[cr])
         wb_all[cr].merge_cells(start_row=1, start_column=3, end_row=1, end_column=3 + space - 1)
         wb_all[cr].cell(row=1, column=3).alignment = Alignment(horizontal="center", vertical="center")
         wb_all[cr].cell(row=1, column=3).border = Border(left=thin, right=thin)
@@ -165,7 +167,7 @@ if __name__ == "__main__":
         for i in criteria_dict[cr]:
             wb_all[cr].cell(row=2, column=column, value=criteria_operator[cr] + str(i))
             wb_all[cr].cell(row=2, column=column).alignment = Alignment(horizontal="center", vertical="center")
-            wb_all[cr].merge_cells(start_row=2, start_column=column, end_row=2, end_column=column + 5)
+            wb_all[cr].merge_cells(start_row=2, start_column=column, end_row=2, end_column=column + 8)
             wb_all[cr].cell(row=2, column=column).border = Border(left=thin, right=thin)
             # freq
             column = freq_title(wb_all[cr], column)
@@ -182,14 +184,14 @@ if __name__ == "__main__":
             column = 3
             for ec in econ_criteria_dict:
                 wb_all[_].cell(row=1, column=column, value=ec)
-                space = 3 * 2 * len(econ_criteria_dict[ec])
+                space = 3 * 3 * len(econ_criteria_dict[ec])
                 wb_all[_].merge_cells(start_row=1, start_column=column, end_row=1, end_column=column + space - 1)
                 wb_all[_].cell(row=1, column=column).alignment = Alignment(horizontal="center", vertical="center")
                 wb_all[_].cell(row=1, column=column).border = Border(left=thin, right=thin)
                 for i in econ_criteria_dict[ec]:
                     wb_all[_].cell(row=2, column=column, value=criteria_operator[ec] + str(i))
                     wb_all[_].cell(row=2, column=column).alignment = Alignment(horizontal="center", vertical="center")
-                    wb_all[_].merge_cells(start_row=2, start_column=column, end_row=2, end_column=column + 5)
+                    wb_all[_].merge_cells(start_row=2, start_column=column, end_row=2, end_column=column + 8)
                     wb_all[_].cell(row=2, column=column).border = Border(left=thin, right=thin)
                     # freq
                     column = freq_title(wb_all[_], column)
@@ -220,9 +222,10 @@ if __name__ == "__main__":
             tmp = equity(result)
             origin_mdd = int(tmp['DD'].max())
             origin_mdd_pct = tmp['DD_pct'].max()
+            origin_hazard = origin_profit / origin_mdd
             # 篩選因子
             for crit in criteria_dict:
-                column = 3 + 2 * freq.index(fq)
+                column = 3 + 3 * freq.index(fq)
                 # 篩選標準
                 for c in criteria_dict[crit]:
                     # criteria為result中符合條件期間(dtype: bool)
@@ -252,18 +255,23 @@ if __name__ == "__main__":
                     after_mdd = int(after_mdd) if after_mdd == after_mdd else 0
                     # MDD變化百分比(>0為減少)
                     mdd_diff = round((origin_mdd - after_mdd) * 100 / origin_mdd, 2)
-
+                    #  風暴比
+                    after_hazard = after_profit / (after_mdd if after_mdd else 1)
+                    hazard_diff = round((after_hazard - origin_hazard) * 100 / origin_hazard, 2)
                     # 寫入excel
                     wb_all[crit].cell(row=row, column=column, value=profit_diff).border = Border(top=thin, bottom=thin)
                     wb_all[crit].cell(row=row, column=column + 1, value=mdd_diff).border = Border(top=thin, bottom=thin)
+                    wb_all[crit].cell(row=row, column=column + 2, value=hazard_diff).border = Border(top=thin,
+                                                                                                     bottom=thin)
                     fill(row, column, profit_diff, wb_all[crit])
                     fill(row, column + 1, mdd_diff, wb_all[crit])
+                    fill(row, column + 2, hazard_diff, wb_all[crit])
 
                     # 下一標準
-                    column += 6
+                    column += 9
             for fa in factor:
                 if fa not in longterm:
-                    column = 3 + 2 * freq.index(fq)
+                    column = 3 + 3 * freq.index(fq)
                     df = pd.read_excel(f"factor/report/{fa}.xlsx", sheet_name=freq_dict[fq], index_col=0)
                     # 將長度縮為策略報告長度
                     len_mask = (df.index >= result.index.min()) & (df.index <= result.index.max())
@@ -298,31 +306,24 @@ if __name__ == "__main__":
                             # MDD變化百分比(>0為減少)
                             after_mdd = int(after_mdd) if after_mdd == after_mdd else 0
                             mdd_diff = round((origin_mdd - after_mdd) * 100 / origin_mdd, 2)
+                            # 風報比
+                            after_hazard = after_profit / (after_mdd if after_mdd else 1)
+                            hazard_diff = round((after_hazard - origin_hazard) * 100 / origin_hazard, 2)
                             # 寫入excel
                             wb_all[fa].cell(row=row, column=column, value=profit_diff).border = Border(top=thin,
                                                                                                        bottom=thin)
                             wb_all[fa].cell(row=row, column=column + 1, value=mdd_diff).border = Border(top=thin,
                                                                                                         bottom=thin)
+                            wb_all[fa].cell(row=row, column=column + 2, value=mdd_diff).border = Border(top=thin,
+                                                                                                        bottom=thin)
                             fill(row, column, profit_diff, wb_all[fa])
                             fill(row, column + 1, mdd_diff, wb_all[fa])
-                            column += 6
+                            fill(row, column + 2, hazard_diff, wb_all[fa])
+                            column += 9
                 else:
                     continue
         # 下一策略
         row += 1
-    """
-    for cr in criteria_dict:
-        # 說明欄
-        description(row, wb_all[cr])
-        # 合併類別欄
-        merge_category(category, wb_all[cr])
-    for fa in factor:
-        if fa not in longterm:
-            description(row, wb_all[fa])
-            merge_category(category, wb_all[fa])
-        else:
-            continue
-    """
     for d in dict(criteria_dict, **{f: [] for f in factor}):
         # 說明欄
         description(row, wb_all[d])
