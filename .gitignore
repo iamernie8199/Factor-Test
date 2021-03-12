@@ -1,2 +1,5 @@
 
 *.xls
+period_report/*
+factor/clean/*
+factor/report/*
