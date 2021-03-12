@@ -5,7 +5,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, PatternFill, Border, Side
 from tqdm import tqdm
 
-from setting import freq, freq_dict, criteria_dict, criteria_operator, econ_criteria_dict, longterm
+from setting import freq, freq_dict, freq_dict_zh, criteria_dict, criteria_operator, econ_criteria_dict, longterm
 
 
 def equity(data):
@@ -29,8 +29,9 @@ def freq_title(sheet, col):
     :return: updated current column
     """
     init_color = 13434879  # 0xccffff
-    for _ in ['月', '季', '半年']:
-        sheet.cell(row=3, column=col, value=_).alignment = Alignment(horizontal="center", vertical="center")
+    for _ in freq_dict_zh:
+        sheet.cell(row=3, column=col, value=freq_dict_zh[_]).alignment = Alignment(horizontal="center",
+                                                                                   vertical="center")
         sheet.cell(row=3, column=col).fill = PatternFill("solid", fgColor=hex(init_color).split('x')[-1])
         sheet.cell(row=4, column=col, value='績效').alignment = Alignment(horizontal="center", vertical="center")
         sheet.cell(row=4, column=col + 1, value='MDD').alignment = Alignment(horizontal="center", vertical="center")
