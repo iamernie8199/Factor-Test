@@ -1,5 +1,13 @@
 # Factor Test
 
+## Usage
+1. 放置MC9/12報表到 StrategyReport-1
+2. 放置因子資料到 factor/dirty
+3. 執行preprocess.py進行因子資料前處理
+4. 執行factor.py輸出因子報表
+5. 執行report.py輸出績效報表
+6. 執行factor_test2.py
+
 ## 檔案/資料夾說明
 
 ### StrategyReport
