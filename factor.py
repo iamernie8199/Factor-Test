@@ -34,8 +34,10 @@ def hurst(ts=None, lags=None):
         ts = [None, ]
     if lags is None:
         lags = [2, 100]
-
-    if ts[0] is None:  # DEMO: Create a SYNTH Geometric Brownian Motion, Mean-Reverting and Trending Series:
+    if ts[0] is None:
+        """
+        DEMO: Create a SYNTH Geometric Brownian Motion, Mean-Reverting and Trending Series
+        """
         # a Geometric Brownian Motion[log(1000 + rand), log(1000 + rand + rand ),... log(  1000 + rand + ... )]
         gbm = np.log(1000 + np.cumsum(np.random.randn(100000)))
         # a Mean-Reverting Series    [log(1000 + rand), log(1000 + rand        ),... log(  1000 + rand       )]
@@ -44,17 +46,19 @@ def hurst(ts=None, lags=None):
         tr = np.log(1000 + np.cumsum(1 + np.random.randn(100000)))
 
         # Output the Hurst Exponent for each of the above SYNTH series
-        print("hurst(Geometric Browian Motion):   {0: > 12.8f}".format(hurst(gbm)))
-        print("hurst(   Mean-Reverting Series):   {0: > 12.8f}".format(hurst(mr)))
-        print("hurst(         Trending Series):   {0: > 12.8f}".format(hurst(tr)))
-        return "SYNTH series demo ( on hurst() ) # actual numbers vary, as per np.random.randn() generator"
-
+        print("hurst(Geometric Browian Motion): {0: > 12.8f}".format(hurst(gbm)))
+        print("hurst(   Mean-Reverting Series): {0: > 12.8f}".format(hurst(mr)))
+        print("hurst(         Trending Series): {0: > 12.8f}".format(hurst(tr)))
+        return "SYNTH series demo (on hurst())"
     if isinstance(ts, pd.Series):
         ts = ts.dropna().to_list()
-    too_short_list = lags[1] + 1 - len(ts)  # MUST HAVE 101+ ELEMENTS
+
+    too_short_list = lags[1] + 1 - len(ts)
     if 0 < too_short_list:  # IF NOT:
+        # 序列長度不足則以第一筆補滿
         ts = too_short_list * ts[:1] + ts  # PRE-PEND SUFFICIENT NUMBER of [ts[0],]-as-list REPLICAS TO THE LIST-HEAD
-    lags = range(lags[0], lags[1])  # Create the range of lag values
+    # Create the range of lag values
+    lags = range(lags[0], lags[1])
     # Calculate the array of the variances of the lagged differences
     tau = [np.sqrt(np.std(np.subtract(ts[lag:], ts[:-lag]))) for lag in lags]
     # Return the Hurst exponent from the polyfit output ( a linear fit to estimate the Hurst Exponent
@@ -180,7 +184,7 @@ if __name__ == "__main__":
                 factor_result['range'] = factor_result['High'] - factor_result['Low']
                 factor_result['ATR'] = factor['True Range'].ewm(span=fq, min_periods=1, adjust=False).mean()
                 # rolling Hurst exponent
-                # factor_result['Hurst_exponent '] = factor['Close'].rolling(fq, min_periods=1).apply(lambda x: hurst(x, [2, fq - 1]))
+                # factor_result['Hurst_exponent'] = factor['Close'].rolling(fq, min_periods=1).apply(lambda x: hurst(x, [2, int(fq/2)]))
                 """
                 # 若有成交量則計算
                 try:
