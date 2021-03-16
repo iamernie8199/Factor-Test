@@ -6,7 +6,31 @@
 3. 執行preprocess.py進行因子資料前處理
 4. 執行factor.py輸出因子報表
 5. 執行report.py輸出績效報表
-6. 執行factor_test2.py
+6. 執行factor_test2.py輸出篩選後報表
+
+## 報表變數說明
+
+|   變數   |   說明   |
+| ------- |--------- |
+| 獲利(¤)  | 當天獲利  |
+| max_pnl | 權益高點  |
+| DD     | DD(點數) |
+| DD_pct | DD(%)   |
+| mean    | 平均獲利   |
+| volatility | 波動度(點數) |
+| win_count | 獲利次數 |
+| loss_count | 虧損次數 |
+| pnl_w   | 毛利      |
+| pnl_l   | 毛損      |
+| avg_w | 平均獲利交易 |
+| avg_l | 平均虧損交易 |
+| avg_wl  | 賺賠比    |
+| kelly   | 凱利值    |
+| winrate | 勝率      |
+| hazard  | 風報比    |
+| pf_factor | 獲利因子 |
+| sharpe | sharpe ratio |
+| last | 前期間獲利>=0 |
 
 ## 檔案/資料夾說明
 
@@ -30,7 +54,9 @@
 
 績效 = $\frac{(篩後績效 - 原始績效) \times 100}{原始績效}$
 
-MDD = $\frac{(原始MDD - 篩後MDD) \times 100}{原始績效}$
+MDD = $\frac{(原始MDD - 篩後MDD) \times 100}{原始MDD}$
+
+風報比 = $\frac{(原始風報比 - 篩後風報比) \times 100}{原始風報比}$
 
 ### setting.py
 
@@ -131,30 +157,6 @@ parser, 以便後續搭配爬蟲更新及擴充, 以資料來源區分
 ### factor/report/pic
 
 外部因子時序統計圖
-
-## 報表變數說明
-
-|   變數   |   說明   |
-| ------- |--------- |
-| 獲利(¤)  | 當天獲利  |
-| max_pnl | 權益高點  |
-| DD     | DD(點數) |
-| DD_pct | DD(%)   |
-| mean    | 平均獲利   |
-| volatility | 波動度(點數) |
-| win_count | 獲利次數 |
-| loss_count | 虧損次數 |
-| pnl_w   | 毛利      |
-| pnl_l   | 毛損      |
-| avg_w | 平均獲利交易 |
-| avg_l | 平均虧損交易 |
-| avg_wl  | 賺賠比    |
-| kelly   | 凱利值    |
-| winrate | 勝率      |
-| hazard  | 風報比    |
-| pf_factor | 獲利因子 |
-| sharpe | sharpe ratio |
-| last | 前期間獲利>=0 |
 
 ## 因子
 
