@@ -140,6 +140,12 @@
 * probability plot
 * 直方統計圖
 
+#### factor.hurst()
+
+計算區間Hurst Exponent
+
+未使用, 因為大多數都 < 0.5
+
 ### factor_test.py
 
 流程:
