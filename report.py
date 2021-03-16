@@ -5,7 +5,6 @@ import pandas as pd
 from openpyxl import Workbook, load_workbook
 from tqdm import tqdm
 
-from factor_test import equity
 from setting import freq, freq_dict
 
 
