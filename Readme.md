@@ -3,11 +3,10 @@
 ## Usage
 1. 放置MC9/12報表到 StrategyReport-1
 2. 放置因子資料到 factor/dirty
-3. 執行preprocess.py進行因子資料前處理
-4. 執行factor.py輸出因子報表
-5. 執行report.py輸出績效報表
-6. 在setting.py設定篩選標準
-7. 執行factor_test2.py輸出篩選後報表
+3. 執行factor.py輸出因子報表
+4. 執行report.py輸出績效報表
+5. 在setting.py設定篩選標準
+6. 執行factor_test2.py輸出篩選後報表
 
 ## 輸出報表(output.xlsx)說明
 
@@ -98,7 +97,7 @@
     - 編輯list更改
     - x%: 該點在該時間點前(含)的統計百分位數
 - criteria_operator(dict): 定義篩選標準用運算子
-- longterm: 略過之外部因子(週期: 周/月)
+- longterm: 略過之長週期(周/月)外部因子
 - econ_criteria_dict: 外部因子篩選標準
     - log_ret: 每日log return
     - return: 期間return(未減1)
@@ -127,7 +126,7 @@
 6. 依區間長度計算結果
 7. 輸出報表
 
-#### tsplot()
+#### factor.tsplot()
 
 輸出因子時間序列統計圖, 包括:
 * 時序圖
