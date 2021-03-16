@@ -38,7 +38,7 @@ def tsplot(y, lags=None, figsize=(10, 8), style='seaborn', title=''):
         hist = plt.subplot2grid(layout, (3, 0), colspan=2)
 
         if y.dtype == complex:
-            y = y.apply(lambda x: np.real(x))
+            y = y.apply(lambda x: x.real)
         lineplot(label="Daily", ax=ts_ax, data=y)
         lineplot(label="30avg", ax=ts_ax, data=y.rolling(30, min_periods=2).mean())
         lineplot(label="90avg", ax=ts_ax, data=y.rolling(90, min_periods=2).mean())
