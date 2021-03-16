@@ -11,6 +11,7 @@ from seaborn import histplot, lineplot
 from statsmodels.api import qqplot
 from tqdm import tqdm
 
+from preprocess import yahoo, dq2, bls, eia
 from setting import freq, freq_dict, longterm
 
 
@@ -61,6 +62,13 @@ if __name__ == "__main__":
         os.makedirs('factor/report')
     if not os.path.exists('factor/report/pic'):
         os.makedirs('factor/report/pic')
+    if not os.path.exists('factor/clean/'):
+        os.makedirs('factor/clean/')
+
+    bls()
+    eia()
+    yahoo()
+    dq2()
 
     file = glob('factor/clean/*.csv')
     for f in tqdm(file):
