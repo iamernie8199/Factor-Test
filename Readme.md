@@ -45,6 +45,35 @@
 | pf_factor | 獲利因子 |
 | last | 前期間獲利>=0 |
 
+## 因子
+
+* BLS(略)
+    * parser: bls()
+    * 原始資料: [bls](https://data.bls.gov/cgi-bin/surveymost?bls)
+        * 失業率: Labor Force Statistics from the Current Population Survey
+        * 非農就業(差值): Employment, Hours, and Earnings from the Current Employment Statistics survey (National)
+* EIA(略)
+    * parser: eia()
+    * 原始資料: [EIA - Stocks of Crude Oil by PAD District, and Stocks of Petroleum Products, U.S. Totals](https://www.eia.gov/petroleum/supply/weekly/)
+  * 原油庫存周變動(差值): Weekly U.S. Ending Stocks excluding SPR of Crude Oil  (Thousand Barrels)
+* yahoo
+    * parser: yahoo()
+    * 原始資料: [yahoo finance](https://finance.yahoo.com/)
+        * VIX
+        * 10年公債殖利率(^TNX)
+        * 5年公債殖利率(^FVX)
+        * 比特幣(BTC-USD)
+* DQ2
+    * parser: dq2()
+    * 原始資料: DQ2
+        * 天然氣近一(N1NG&)
+        * 輕原油近一(N1CL&)
+        * 汽油近一(N1RB&)
+        * 日圓(JPY)
+        * 美元指數(YDX)
+        * 黃金近一(O1GC&)
+        * 歐元(EUR)
+
 ## 檔案/資料夾說明
 
 ### StrategyReport
@@ -159,31 +188,3 @@ parser, 以便後續搭配爬蟲更新及擴充, 以資料來源區分
 
 外部因子時序統計圖
 
-## 因子
-
-* BLS(略)
-    * parser: bls()
-    * 原始資料: [bls](https://data.bls.gov/cgi-bin/surveymost?bls)
-        * 失業率: Labor Force Statistics from the Current Population Survey
-        * 非農就業(差值): Employment, Hours, and Earnings from the Current Employment Statistics survey (National)
-* EIA(略)
-    * parser: eia()
-    * 原始資料: [EIA - Stocks of Crude Oil by PAD District, and Stocks of Petroleum Products, U.S. Totals](https://www.eia.gov/petroleum/supply/weekly/)
-  * 原油庫存周變動(差值): Weekly U.S. Ending Stocks excluding SPR of Crude Oil  (Thousand Barrels)
-* yahoo
-    * parser: yahoo()
-    * 原始資料: [yahoo finance](https://finance.yahoo.com/)
-        * VIX
-        * 10年公債殖利率(^TNX)
-        * 5年公債殖利率(^FVX)
-        * 比特幣(BTC-USD)
-* DQ2
-    * parser: dq2()
-    * 原始資料: DQ2
-        * 天然氣近一(N1NG&)
-        * 輕原油近一(N1CL&)
-        * 汽油近一(N1RB&)
-        * 日圓(JPY)
-        * 美元指數(YDX)
-        * 黃金近一(O1GC&)
-        * 歐元(EUR)
