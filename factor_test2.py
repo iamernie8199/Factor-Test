@@ -314,7 +314,7 @@ if __name__ == "__main__":
                             wb_all[fa].cell(row=row, column=column + 1, value=mdd_diff).border = Border(top=thin,
                                                                                                         bottom=thin)
                             wb_all[fa].cell(row=row, column=column + 2, value=hazard_diff).border = Border(top=thin,
-                                                                                                        bottom=thin)
+                                                                                                           bottom=thin)
                             fill(row, column, profit_diff, wb_all[fa])
                             fill(row, column + 1, mdd_diff, wb_all[fa])
                             fill(row, column + 2, hazard_diff, wb_all[fa])
