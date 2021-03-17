@@ -72,12 +72,12 @@ def description(r, sheet):
     :return:
     """
     sheet.cell(row=r, column=2, value='>50').fill = PatternFill("solid", fgColor='FF6600')
-    sheet.cell(row=r, column=2).border = Border(top=thin, left=thin, right=thin)
     sheet.cell(row=r + 1, column=2, value='>25').fill = PatternFill("solid", fgColor='FFCC00')
-    sheet.cell(row=r + 1, column=2).border = Border(left=thin, right=thin)
     sheet.cell(row=r + 2, column=2, value='>0').fill = PatternFill("solid", fgColor='C0C0C0')
-    sheet.cell(row=r + 2, column=2).border = Border(left=thin, right=thin)
     sheet.cell(row=r + 3, column=2, value='<=0').fill = PatternFill("solid", fgColor='808080')
+    sheet.cell(row=r, column=2).border = Border(top=thin, left=thin, right=thin)
+    sheet.cell(row=r + 1, column=2).border = Border(left=thin, right=thin)
+    sheet.cell(row=r + 2, column=2).border = Border(left=thin, right=thin)
     sheet.cell(row=r + 3, column=2).border = Border(left=thin, right=thin, bottom=thin)
 
 
