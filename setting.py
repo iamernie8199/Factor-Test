@@ -15,6 +15,11 @@ criteria_dict = {'mean': ['10%', '20%', '30%', '40%'],
                  'avg_wl': [1, 2],
                  'pf_factor': [1, 1.5],
                  'last': [1]}
+econ_criteria_dict = {"log_ret": [0, 0.01, 0.05],
+                      "return": [0.9, 1, 1.1],
+                      "abs_r": [0.1, 0.3, 0.5],
+                      "range": ['30%', '50%', '70%'],
+                      "ATR": ['30%', '50%', '70%']}
 criteria_operator = {'mean': '>',
                      'MDD': '<',
                      'DD_pct': '<',
@@ -31,11 +36,6 @@ criteria_operator = {'mean': '>',
                      "abs_r": '>',
                      "range": '>',
                      "ATR": '>'}
-longterm = ['Employment, Hours, and Earnings from the Current Employment Statistics survey (National)',
-            'Labor Force Statistics from the Current Population Survey',
-            'U.S. Crude Oil Inventories']
-econ_criteria_dict = {"log_ret": [0, 0.01, 0.05],
-                      "return": [0.9, 1, 1.1],
-                      "abs_r": [0.1, 0.3, 0.5],
-                      "range": ['30%', '50%', '70%'],
-                      "ATR": ['30%', '50%', '70%']}
+factor_mask = ['Employment, Hours, and Earnings from the Current Employment Statistics survey (National)',
+               'Labor Force Statistics from the Current Population Survey',
+               'U.S. Crude Oil Inventories']
