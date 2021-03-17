@@ -6,7 +6,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, PatternFill, Border, Side
 from tqdm import tqdm
 
-from setting import freq, freq_dict, criteria_dict, criteria_operator, econ_criteria_dict, longterm
+from setting import freq, freq_dict, criteria_dict, criteria_operator, econ_criteria_dict, factor_mask
 
 
 def equity(data):
@@ -176,7 +176,7 @@ if __name__ == "__main__":
         factor_criteria_num += len(econ_criteria_dict[_])
 
     for _ in factor:
-        if _ not in longterm:
+        if _ not in factor_mask:
             wb_all.create_sheet(_)
             # 策略名稱欄位
             strategy_title(wb_all[_])
@@ -210,7 +210,7 @@ if __name__ == "__main__":
         for cr in criteria_dict:
             strategy_n_category(wb_all, cr, cat_name, strategy_name, row)
         for fa in factor:
-            if fa not in longterm:
+            if fa not in factor_mask:
                 strategy_n_category(wb_all, fa, cat_name, strategy_name, row)
             else:
                 continue
@@ -347,7 +347,7 @@ if __name__ == "__main__":
                     # 下一標準
                     column += 6
             for fa in factor:
-                if fa not in longterm:
+                if fa not in factor_mask:
                     column = 3 + 2 * freq.index(fq)
                     df = pd.read_excel(f"factor/report/{fa}.xlsx", sheet_name=freq_dict[fq], index_col=0)
                     # 將長度縮為策略報告長度
@@ -402,7 +402,7 @@ if __name__ == "__main__":
         # 合併類別欄
         merge_category(category, wb_all[cr])
     for fa in factor:
-        if fa not in longterm:
+        if fa not in factor_mask:
             description(row, wb_all[fa])
             merge_category(category, wb_all[fa])
         else:
