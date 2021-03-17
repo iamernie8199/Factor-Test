@@ -38,7 +38,7 @@ def freq_title(sheet, col):
         sheet.cell(row=4, column=col + 2, value='風報比').alignment = Alignment(horizontal="center", vertical="center")
         sheet.cell(row=4, column=col).border = Border(left=thin)
         sheet.cell(row=4, column=col + 2).border = Border(right=thin)
-        sheet.merge_cells(start_row=3, start_column=col, end_row=3, end_column=col + 2)
+        sheet.merge_cells(start_row=3, end_row=3, start_column=col, end_column=col + 2)
         sheet.cell(row=3, column=col).border = Border(left=thin, right=thin)
         col += 3
         init_color -= 3355392
