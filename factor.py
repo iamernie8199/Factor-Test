@@ -12,7 +12,7 @@ from statsmodels.api import qqplot
 from tqdm import tqdm
 
 from preprocess import yahoo, dq2, bls, eia
-from setting import freq, freq_dict, longterm
+from setting import freq, freq_dict, factor_mask
 
 
 def hurst(ts=None, lags=None):
@@ -126,7 +126,7 @@ if __name__ == "__main__":
         factor_name = f.split('\\')[-1].replace('.csv', '')
 
         factor = pd.read_csv(f)
-        if factor_name not in longterm:
+        if factor_name not in factor_mask:
             # 建立空白xlsx
             path = f'factor/report/{factor_name}.xlsx'
             wb = Workbook()
@@ -184,7 +184,7 @@ if __name__ == "__main__":
                 factor_result['range'] = factor_result['High'] - factor_result['Low']
                 factor_result['ATR'] = factor['True Range'].ewm(span=fq, min_periods=1, adjust=False).mean()
                 # rolling Hurst exponent
-                # factor_result['Hurst_exponent'] = factor['Close'].rolling(fq, min_periods=1).apply(lambda x: hurst(x, [2, int(fq/2)]))
+                factor_result['Hurst_exponent'] = factor['Close'].rolling(fq, min_periods=1).apply(lambda x: hurst(x, [2, int(fq/2)]))
                 """
                 # 若有成交量則計算
                 try:
