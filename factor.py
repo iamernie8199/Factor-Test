@@ -184,7 +184,7 @@ if __name__ == "__main__":
                 factor_result['range'] = factor_result['High'] - factor_result['Low']
                 factor_result['ATR'] = factor['True Range'].ewm(span=fq, min_periods=1, adjust=False).mean()
                 # rolling Hurst exponent
-                factor_result['Hurst_exponent'] = factor['Close'].rolling(fq, min_periods=1).apply(lambda x: hurst(x, [2, int(fq/2)]))
+                #factor_result['Hurst_exponent'] = factor['Close'].rolling(fq, min_periods=1).apply(lambda x: hurst(x, [2, int(fq/2)]))
                 """
                 # 若有成交量則計算
                 try:
