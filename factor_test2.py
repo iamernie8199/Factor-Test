@@ -84,6 +84,7 @@ def description(r, sheet):
 def merge_category(cat, sheet):
     r = 5
     for ca in cat:
+        # 該類別策略數
         ca_len = len(glob(f'period_report/{ca}/*.xlsx'))
         # 合併儲存格
         sheet.merge_cells(start_row=r, start_column=1, end_row=r + ca_len - 1, end_column=1)
