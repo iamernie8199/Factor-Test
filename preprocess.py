@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from fractions import Fraction
 from glob import glob
 
 import pandas as pd
@@ -55,6 +56,20 @@ def yahoo():
         tmp.to_csv(f"factor/clean/{filename}", index=False)
 
 
+def frac2float(x):
+    """
+    covert something like '387 2/4' to float
+    :param x: fractions(str)
+    :return: float
+    """
+    if len(x.split(' ')) == 2:
+        return float(x.split(' ')[0]) + float(Fraction(x.split(' ')[-1]))
+    elif len(x.split(' ')) == 3:
+        return float(x.split(' ')[0]) + float(Fraction(x.split(' ')[-2])) * float(Fraction(x.split(' ')[-1]))
+    else:
+        return float(x.split(' ')[0])
+
+
 def dq2():
     file = glob('factor/dirty/DQ2/*.csv')
     for f in file:
@@ -74,6 +89,17 @@ def dq2():
         filename = f.split('\\')[-1].split('(')[-2].replace(')', '.csv')
         # 捨棄全0欄位
         tmp = tmp.loc[:, (tmp != 0).any(axis=0)]
+
+        try:
+            tmp = tmp.astype({'Open': 'float',
+                              'High': 'float',
+                              'Low': 'float',
+                              'Close': 'float'})
+        except:
+            tmp['Open'] = tmp['Open'].apply(lambda x: frac2float(x))
+            tmp['High'] = tmp['High'].apply(lambda x: frac2float(x))
+            tmp['Low'] = tmp['Low'].apply(lambda x: frac2float(x))
+            tmp['Close'] = tmp['Close'].apply(lambda x: frac2float(x))
         tmp.to_csv(f"factor/clean/{filename}", index=False)
 
 
