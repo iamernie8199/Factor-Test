@@ -7,3 +7,4 @@ factor/report/*
 __pycache__
 ~*
 *.pptx
+output.xlsx
