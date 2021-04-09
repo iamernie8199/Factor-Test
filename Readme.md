@@ -191,6 +191,10 @@ parser, 以便後續搭配爬蟲更新及擴充, 以資料來源區分
 
 統一格式及column名稱, 並刪除缺失值
 
+#### preprocess.frac2float()
+
+某些商品報價為分數, 轉為float
+
 ### factor/dirty
 
 因子raw data, 依來源分類
